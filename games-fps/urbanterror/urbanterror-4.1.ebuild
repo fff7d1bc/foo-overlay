@@ -15,7 +15,7 @@ SRC_URI="ftp://ftp.snt.utwente.nl/pub/games/${PN}/iourbanterror/source/complete/
 
 LICENSE="freedist"
 SLOT="0"
-KEYWORDS="~amd64 ~x86"
+KEYWORDS="~amd64 ~x86 x86 amd64"
 
 IUSE="dedicated openal vorbis"
 
