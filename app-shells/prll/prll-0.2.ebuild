@@ -16,7 +16,8 @@ KEYWORDS="~x86 ~amd64"
 IUSE=""
 
 src_prepare() {
-	epatch "${FILESDIR}"/prll-0.2-makefile.patch
+	epatch "${FILESDIR}/prll-0.2-makefile.patch"
+	epatch "${FILESDIR}/more-zsh-friendly_prll-0.2.patch"
 }
 
 src_install() {

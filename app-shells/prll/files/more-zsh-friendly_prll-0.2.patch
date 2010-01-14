@@ -1,0 +1,44 @@
+diff --git a/prll.sh b/prll.sh
+index 7a9ced3..59e78ec 100644
+--- a/prll.sh
++++ b/prll.sh
+@@ -15,20 +15,21 @@ function prll() {
+ 	the PRLL_NR_CPUS environment variable. If it is unset, prll will
+ 	attempt to read the number of CPUS from /proc/cpuinfo.
+ 	EOF
++    [ ${+zsh_ksh_array_backup} = 1 ] && unsetopt ksh_arrays
+ 	return 1
+     fi
+     which awk sed egrep ipcs ipcrm ipcmk prll_jobserver > /dev/null
+     if [[ $? -ne 0 ]] ; then
+ 	echo "PRLL: Missing some utilities. Search results:" 2>&1
+ 	which awk sed egrep ipcs ipcrm ipcmk prll_jobserver 2>&1
++    [ ${+zsh_ksh_array_backup} = 1 ] && unsetopt ksh_arrays
+ 	return 1
+     fi
+     if [[ -n $ZSH_VERSION ]] ; then
+ 	setopt | grep -x ksharrays > /dev/null
+ 	if [[ $? -ne 0 ]] ; then
+-	    echo "PRLL: zsh does not have the 'ksharrays' option set." 2>&1
+-	    echo "PRLL: refusing to start." 2>&1
+-	    return 1
++        setopt ksh_arrays
++        local zsh_ksh_array_backup=1
+ 	fi
+     fi
+     if [[ -z $PRLL_NR_CPUS ]] ; then
+@@ -49,6 +50,7 @@ function prll() {
+     local prll_Q="$(ipcmk -Q | sed -r 's/.+ ([0-9]+)$/\1/' | egrep -x '[0-9]+')"
+     if [[ $? -ne 0 ]] ; then
+ 	echo "PRLL: Failed to create message queue." 2>&1
++    [ ${+zsh_ksh_array_backup} = 1 ] && unsetopt ksh_arrays
+ 	return 1
+     else
+ 	prll_Qkey=$(ipcs -q | awk "\$2 == $prll_Q { print \$1 }")
+@@ -74,4 +76,5 @@ function prll() {
+ 	echo "PRLL: Jobserver finished, cleaning up."
+ 	ipcrm -q $prll_Q
+     )
++    [ ${+zsh_ksh_array_backup} = 1 ] && unsetopt ksh_arrays
+ }
+
