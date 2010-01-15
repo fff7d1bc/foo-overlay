@@ -13,11 +13,13 @@ SRC_URI="mirror://sourceforge/${PN}/${P}.tar.bz2"
 LICENSE="GPL-3 WTFPL-2"
 SLOT="0"
 KEYWORDS="~x86 ~amd64"
-IUSE=""
+IUSE="+morezshfriendly"
 
 src_prepare() {
 	epatch "${FILESDIR}/prll-0.2-makefile.patch"
-	epatch "${FILESDIR}/more-zsh-friendly_prll-0.2.patch"
+	if use morezshfriendly ; then
+		epatch "${FILESDIR}/more-zsh-friendly_prll-0.2.patch"
+	fi
 }
 
 src_install() {
