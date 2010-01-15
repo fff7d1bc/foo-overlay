@@ -104,7 +104,7 @@ src_install() {
 	keepdir /var/log/${PN} /var/tmp/${PN}/{client,proxy,fastcgi}
 
 	dosbin objs/nginx
-	newinitd "${FILESDIR}"/nginx.init-slashbeast-r1 nginx || die
+	newinitd "${FILESDIR}"/nginx.init-slashbeast-r2 nginx || die
 
 	cp "${FILESDIR}"/nginx.conf-r4 conf/nginx.conf
 

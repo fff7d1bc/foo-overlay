@@ -2,7 +2,7 @@
 # Copyright 1999-2004 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # Based on Gentoo init script.
-# Version slashbeast-r1.
+# Version slashbeast-r2.
 
 opts="${opts} upgrade reload configtest"
 
@@ -66,14 +66,13 @@ upgrade() {
 }
 
 configtest() {
-	ebegin "Checking nginx' configuration"
-	/usr/sbin/nginx -c /etc/nginx/nginx.conf -t
-
-	# check for tmp nginx dir, create if not exist.
-	einfo "Checking nginx tmp dir..."
+	ebegin "Checking nginx tmp dir..."
 	/usr/bin/test -d /var/tmp/nginx || /bin/mkdir /var/tmp/nginx
 	/usr/bin/test -d /var/tmp/nginx && /bin/chmod 770 /var/tmp/nginx
 	/usr/bin/test -d /var/tmp/nginx && /bin/chown nginx:nginx /var/tmp/nginx
-	
+
+	einfo "Checking nginx' configuration"
+	/usr/sbin/nginx -c /etc/nginx/nginx.conf -t
+
 	eend $? "failed, please correct errors above"
 }
