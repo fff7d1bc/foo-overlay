@@ -66,13 +66,12 @@ upgrade() {
 }
 
 configtest() {
-	ebegin "Checking nginx tmp dir..."
+	ebegin "Checking nginx tmp dir"
 	/usr/bin/test -d /var/tmp/nginx || /bin/mkdir /var/tmp/nginx
 	/usr/bin/test -d /var/tmp/nginx && /bin/chmod 770 /var/tmp/nginx
 	/usr/bin/test -d /var/tmp/nginx && /bin/chown nginx:nginx /var/tmp/nginx
 
-	einfo "Checking nginx' configuration"
+	einfo "Checking nginx' configuration..."
 	/usr/sbin/nginx -c /etc/nginx/nginx.conf -t
-
 	eend $? "failed, please correct errors above"
 }
