@@ -13,13 +13,24 @@ SRC_URI="mirror://sourceforge/${PN}/${P}.tar.bz2"
 LICENSE="GPL-3 WTFPL-2"
 SLOT="0"
 KEYWORDS="~x86 ~amd64"
-IUSE="+morezshfriendly"
+IUSE="+betterzshsupport"
 
 src_prepare() {
 	epatch "${FILESDIR}/prll-0.2-makefile.patch"
-	if use morezshfriendly ; then
+	if use betterzshsupport ; then
 		epatch "${FILESDIR}/more-zsh-friendly_prll-0.2.patch"
 	fi
+}
+
+pkg_postinst() {
+		echo
+		einfo "File prll.sh contains the shell function. The shell that will use it"
+		einfo "needs to source it. That means two things:"
+		einfo "  - If you wish to use prll in a shell script, simply copy it in there."
+		einfo "  - If you wish to use prll in an interactive shell, source it."
+		einfo "The latter means that you need to put the function somewhere where"
+		einfo "your shell will find it. You may need put or source it in your .bashrc or .zshrc."
+		echo
 }
 
 src_install() {
