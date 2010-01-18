@@ -42,21 +42,21 @@ RDEPEND="${DEPEND}
 
 S="${WORKDIR}/${P/_/.}"
 
-src_prepare() {
-	# fix libdir detection
-	# fix docdir
-	# fix tag appending to folder
-	# build 2geom and toy as shared things
-	sed -i \
-		-e "s:doc/\${MAIN_DIR_NAME}\${TAG_VERSION}/\":doc/${PF}/\":g" \
-		-e "s:doc/\${MAIN_DIR_NAME}-\${VERSION}/\":doc/${PF}/\":g" \
-		-e "s:\${MAIN_DIR_NAME}\${TAG_VERSION}:\${MAIN_DIR_NAME}:g" \
-		CMakeLists.txt || die "fixing libdir failed"
-	# build 2geom and toy as shared things
-	sed	-e "s:LIB_TYPE STATIC:LIB_TYPE SHARED:g" \
-		-i scribus/plugins/tools/2geomtools/lib2geom/CMakeLists.txt \
-		|| die "fixing static libs failed"
-}
+#src_prepare() {
+#	# fix libdir detection
+#	# fix docdir
+#	# fix tag appending to folder
+#	# build 2geom and toy as shared things
+#	sed -i \
+#		-e "s:doc/\${MAIN_DIR_NAME}\${TAG_VERSION}/\":doc/${PF}/\":g" \
+#		-e "s:doc/\${MAIN_DIR_NAME}-\${VERSION}/\":doc/${PF}/\":g" \
+#		-e "s:\${MAIN_DIR_NAME}\${TAG_VERSION}:\${MAIN_DIR_NAME}:g" \
+#		CMakeLists.txt || die "fixing libdir failed"
+#	# build 2geom and toy as shared things
+#	sed	-e "s:LIB_TYPE STATIC:LIB_TYPE SHARED:g" \
+#		-i scribus/plugins/tools/2geomtools/lib2geom/CMakeLists.txt \
+#		|| die "fixing static libs failed"
+#}
 
 src_configure() {
 	# cairo can be used as replacement instead of qt arthur
