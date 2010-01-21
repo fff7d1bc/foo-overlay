@@ -15,9 +15,9 @@ SLOT="0"
 KEYWORDS="~x86 ~amd64"
 IUSE=""
 
-src_prepare() {
-	epatch "${FILESDIR}/prll-0.2-makefile.patch"
-}
+#src_prepare() {
+#	epatch "${FILESDIR}/prll-0.2-makefile.patch"
+#}
 
 pkg_postinst() {
 		echo
