@@ -24,6 +24,7 @@ USE_DESC="
 
 DEPEND=">=x11-libs/gtk+-2.8.0
 	>=dev-libs/glib-2.6.0
+	>=app-text/gnome-doc-utils-0.3.2
 	>=gnome-base/libgnomeui-2.4.0
 	>=gnome-base/libgnome-2.4.0
 	>=gnome-base/gnome-vfs-2.0
