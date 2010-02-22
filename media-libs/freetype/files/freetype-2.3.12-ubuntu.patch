@@ -1,0 +1,63 @@
+diff -Naur freetype-2.3.12.orig/src/base/ftapi.c freetype-2.3.12/src/base/ftapi.c
+--- freetype-2.3.12.orig/src/base/ftapi.c	2010-02-20 14:40:41.000000000 +0100
++++ freetype-2.3.12/src/base/ftapi.c	2010-02-20 15:03:26.000000000 +0100
+@@ -118,4 +118,18 @@
+   }
+ 
+ 
++  FT_BASE_DEF( FT_Short )
++  FT_Get_Short( FT_Stream stream )
++  {
++    return FT_GET_SHORT();
++  }
++
++
++  FT_BASE_DEF( FT_Long )
++  FT_Get_Long( FT_Stream stream )
++  {
++    return FT_GET_LONG();
++  }
++
++
+ /* END */
+diff -Naur freetype-2.3.12.orig/src/base/ftbase.c freetype-2.3.12/src/base/ftbase.c
+--- freetype-2.3.12.orig/src/base/ftbase.c	2010-02-20 14:40:41.000000000 +0100
++++ freetype-2.3.12/src/base/ftbase.c	2010-02-20 15:03:26.000000000 +0100
+@@ -33,6 +33,7 @@
+ #include "ftstream.c"
+ #include "fttrigon.c"
+ #include "ftutil.c"
++#include "ftapi.c"
+ 
+ #if defined( FT_MACINTOSH ) && !defined ( DARWIN_NO_CARBON )
+ #include "ftmac.c"
+diff -Naur freetype-2.3.12.orig/src/bdf/bdflib.c freetype-2.3.12/src/bdf/bdflib.c
+--- freetype-2.3.12.orig/src/bdf/bdflib.c	2010-02-20 14:40:41.000000000 +0100
++++ freetype-2.3.12/src/bdf/bdflib.c	2010-02-20 15:03:40.000000000 +0100
+@@ -1586,6 +1586,14 @@
+         goto Exit;
+       }
+ 
++      /* Check that the encoding is in the range [0, 65535] because       */
++      /* otherwise p->have (a bitmap with static size) overflows.         */
++      if ( p->glyph_enc >= sizeof(p->have) * 8 )
++      {
++	error = BDF_Err_Invalid_File_Format; /* Not the ideal error code */
++	goto Exit;
++      }
++
+       /* Check to see whether this encoding has already been encountered. */
+       /* If it has then change it to unencoded so it gets added if        */
+       /* indicated.                                                       */
+diff -Naur freetype-2.3.12.orig/src/sfnt/ttmtx.c freetype-2.3.12/src/sfnt/ttmtx.c
+--- freetype-2.3.12.orig/src/sfnt/ttmtx.c	2010-02-20 14:40:41.000000000 +0100
++++ freetype-2.3.12/src/sfnt/ttmtx.c	2010-02-20 15:04:02.000000000 +0100
+@@ -176,7 +176,7 @@
+     }
+ 
+     if ( FT_QNEW_ARRAY( *longs,  num_longs  ) ||
+-         FT_QNEW_ARRAY( *shorts, num_shorts ) )
++         (num_shorts > 0 && FT_QNEW_ARRAY( *shorts, num_shorts ) ) )
+       goto Fail;
+ 
+     if ( FT_FRAME_ENTER( table_len ) )
