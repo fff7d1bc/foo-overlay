@@ -1,0 +1,11 @@
+--- setup/srcconf.c	2009-11-13 23:23:24.000000000 +0800
++++ setup/srcconf.c.new	2009-12-16 11:15:33.705839223 +0800
+@@ -962,7 +962,7 @@
+ #if defined(__SCO_VERSION__)
+       fprintf (f, "CFLAGS=-O -D_KERNEL -D_DDI=8\n");
+ #else
+-      fprintf (f, "CFLAGS += -D_KERNEL\n");
++      fprintf (f, "CFLAGS += -nopie -D_KERNEL\n");
+ #endif
+ #ifdef HAVE_KERNEL_FLAGS
+       add_kernel_flags (f);
