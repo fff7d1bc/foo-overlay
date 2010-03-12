@@ -1,0 +1,296 @@
+diff -Naur poppler-0.10.7.orig/poppler/CairoFont.cc poppler-0.10.7/poppler/CairoFont.cc
+--- poppler-0.10.7.orig/poppler/CairoFont.cc	1970-01-01 01:00:00.000000000 +0100
++++ poppler-0.10.7/poppler/CairoFont.cc	2009-06-20 17:19:51.000000000 +0200
+@@ -0,0 +1,193 @@
++// #include "config.h"
++
++#include "CairoFont.h"
++
++#include <stdlib.h>
++
++#include <gdk/gdkx.h>
++#include <fontconfig/fontconfig.h>
++
++#ifdef POPPLER_WITH_GDK
++static int
++parse_boolean (const char *v)
++{
++  char c0, c1;
++
++  c0 = *v;
++  if (c0 == 't' || c0 == 'T' || c0 == 'y' || c0 == 'Y' || c0 == '1')
++    return 1;
++  if (c0 == 'f' || c0 == 'F' || c0 == 'n' || c0 == 'N' || c0 == '0')
++    return 0;
++  if (c0 == 'o')
++  {
++    c1 = v[1];
++    if (c1 == 'n' || c1 == 'N')
++      return 1;
++    if (c1 == 'f' || c1 == 'F')
++      return 0;
++  }
++
++  return -1;
++}
++
++static int
++get_boolean_default (Display *dpy, const char *option, cairo_bool_t *value)
++{
++  char *v;
++  int i;
++
++  v = XGetDefault (dpy, "Xft", option);
++  if (v)
++  {
++    i = parse_boolean (v);
++    if (i >= 0)
++    {
++      *value = i;
++      return TRUE;
++    }
++  }
++
++  return FALSE;
++}
++
++static int
++get_integer_default (Display *dpy, const char *option, int *value)
++{
++  char *v, *e;
++
++  v = XGetDefault (dpy, "Xft", option);
++  if (v)
++  {
++#if CAIRO_HAS_FT_FONT
++    if (FcNameConstant ((FcChar8 *) v, value))
++      return TRUE;
++#endif
++
++    *value = strtol (v, &e, 0);
++    if (e != v)
++      return TRUE;
++  }
++
++  return FALSE;
++}
++#endif
++
++int
++cairo_font_set_hinting_options (cairo_font_options_t *options)
++{
++  int antialias = 0, rgba = FC_RGBA_UNKNOWN, hinting = 0, hint_style = FC_HINT_NONE;
++
++#ifdef POPPLER_WITH_GDK
++  Display *dpy;
++
++  dpy = gdk_x11_get_default_xdisplay ();
++  if (!dpy)
++    return -1;
++
++  if (!get_boolean_default (dpy, "antialias", &antialias))
++    return -1;
++
++  if (antialias)
++  {
++    if (!get_integer_default (dpy, "rgba", &rgba))
++      return -1;
++
++    if (!get_boolean_default (dpy, "hinting", &hinting))
++      return -1;
++
++    if (!get_integer_default (dpy, "hintstyle", &hint_style))
++      return -1;
++  }
++#else
++  FcConfig *config;
++  FcPattern *pattern;
++
++  config = FcConfigGetCurrent ();
++
++  pattern = FcPatternCreate ();
++  if (!pattern)
++    return -1;
++
++  FcConfigSubstitute (config, pattern, FcMatchFont);
++  FcDefaultSubstitute (pattern);
++
++  if (FcPatternGetBool (pattern, FC_ANTIALIAS, 0, &antialias) != FcResultMatch)
++  {
++    FcPatternDestroy (pattern);
++    return -1;
++  }
++
++  if (antialias)
++  {
++    if (FcPatternGetInteger (pattern, FC_RGBA, 0, &rgba) != FcResultMatch)
++    {
++      FcPatternDestroy (pattern);
++      return -1;
++    }
++
++    if (FcPatternGetBool (pattern, FC_HINTING, 0, &hinting) != FcResultMatch)
++    {
++      FcPatternDestroy (pattern);
++      return -1;
++    }
++
++    if (FcPatternGetInteger (pattern, FC_HINT_STYLE, 0, &hint_style) != FcResultMatch)
++    {
++      FcPatternDestroy (pattern);
++      return -1;
++    }
++  }
++#endif
++
++  if (!antialias)
++    cairo_font_options_set_antialias (options, CAIRO_ANTIALIAS_NONE);
++  else
++  {
++    switch (rgba)
++    {
++      case FC_RGBA_RGB:
++          cairo_font_options_set_antialias (options, CAIRO_ANTIALIAS_SUBPIXEL);
++          cairo_font_options_set_subpixel_order (options, CAIRO_SUBPIXEL_ORDER_RGB);
++          break;
++        case FC_RGBA_BGR:
++          cairo_font_options_set_antialias (options, CAIRO_ANTIALIAS_SUBPIXEL);
++          cairo_font_options_set_subpixel_order (options, CAIRO_SUBPIXEL_ORDER_BGR);
++          break;
++        case FC_RGBA_VRGB:
++          cairo_font_options_set_antialias (options, CAIRO_ANTIALIAS_SUBPIXEL);
++          cairo_font_options_set_subpixel_order (options, CAIRO_SUBPIXEL_ORDER_VRGB);
++          break;
++        case FC_RGBA_VBGR:
++          cairo_font_options_set_antialias (options, CAIRO_ANTIALIAS_SUBPIXEL);
++          cairo_font_options_set_subpixel_order (options, CAIRO_SUBPIXEL_ORDER_VBGR);
++          break;
++        default:
++          cairo_font_options_set_antialias (options, CAIRO_ANTIALIAS_GRAY);
++          break;
++    }
++
++    /* cairo_font_options_set_lcd_filter (options, CAIRO_LCD_FILTER_FIR5); */
++
++    if (!hinting)
++      hint_style = FC_HINT_NONE;
++
++    switch (hint_style)
++    {
++      case FC_HINT_SLIGHT:
++        cairo_font_options_set_hint_style (options, CAIRO_HINT_STYLE_SLIGHT);
++        break;
++      case FC_HINT_MEDIUM:
++        cairo_font_options_set_hint_style (options, CAIRO_HINT_STYLE_MEDIUM);
++        break;
++      case FC_HINT_FULL:
++        cairo_font_options_set_hint_style (options, CAIRO_HINT_STYLE_FULL);
++        break;
++      default:
++        cairo_font_options_set_hint_style (options, CAIRO_HINT_STYLE_NONE);
++        break;
++    }
++  }
++
++  return 0;
++}
++
+diff -Naur poppler-0.10.7.orig/poppler/CairoFontEngine.cc poppler-0.10.7/poppler/CairoFontEngine.cc
+--- poppler-0.10.7.orig/poppler/CairoFontEngine.cc	2009-05-02 14:14:57.000000000 +0200
++++ poppler-0.10.7/poppler/CairoFontEngine.cc	2009-06-20 17:19:51.000000000 +0200
+@@ -81,7 +81,7 @@
+     return gFalse;
+ 
+   font_face = cairo_ft_font_face_create_for_ft_face (face,
+-							  FT_LOAD_NO_HINTING |
++							  FT_LOAD_TARGET_LIGHT |
+ 							  FT_LOAD_NO_BITMAP);
+   if (cairo_font_face_set_user_data (font_face,
+ 				     &_ft_cairo_key,
+@@ -228,7 +228,7 @@
+   _ft_open_faces = l;
+ 
+   l->font_face = cairo_ft_font_face_create_for_ft_face (tmpl.face,
+-							  FT_LOAD_NO_HINTING |
++							  FT_LOAD_TARGET_LIGHT |
+ 							  FT_LOAD_NO_BITMAP);
+   if (cairo_font_face_set_user_data (l->font_face,
+ 				     &_ft_cairo_key,
+@@ -495,7 +495,7 @@
+ 	cairo_matrix_t m;
+ 	cairo_matrix_init_identity(&m);
+ 	cairo_font_options_t *options = cairo_font_options_create();
+-	cairo_font_options_set_hint_style(options, CAIRO_HINT_STYLE_NONE);
++	cairo_font_options_set_hint_style(options, CAIRO_HINT_STYLE_SLIGHT);
+ 	cairo_font_options_set_hint_metrics(options, CAIRO_HINT_METRICS_OFF);
+ 	cairo_scaled_font_t *scaled_font = cairo_scaled_font_create(cairo_font_face, &m, &m, options);
+ 
+diff -Naur poppler-0.10.7.orig/poppler/CairoFont.h poppler-0.10.7/poppler/CairoFont.h
+--- poppler-0.10.7.orig/poppler/CairoFont.h	1970-01-01 01:00:00.000000000 +0100
++++ poppler-0.10.7/poppler/CairoFont.h	2009-06-20 17:19:51.000000000 +0200
+@@ -0,0 +1,8 @@
++#ifndef CAIRO_FONT_H
++#define CAIRO_FONT_H
++
++#include <cairo.h>
++
++int cairo_font_set_hinting_options (cairo_font_options_t *options);
++
++#endif
+diff -Naur poppler-0.10.7.orig/poppler/CairoOutputDev.cc poppler-0.10.7/poppler/CairoOutputDev.cc
+--- poppler-0.10.7.orig/poppler/CairoOutputDev.cc	2009-05-16 17:27:41.000000000 +0200
++++ poppler-0.10.7/poppler/CairoOutputDev.cc	2009-06-20 17:19:51.000000000 +0200
+@@ -53,6 +53,7 @@
+ #include <splash/SplashBitmap.h>
+ #include "CairoOutputDev.h"
+ #include "CairoFontEngine.h"
++#include "CairoFont.h"
+ //------------------------------------------------------------------------
+ 
+ // #define LOG_CAIRO
+@@ -161,6 +162,11 @@
+     assert(!cairo_shape);
+   }
+   if (cairo != NULL) {
++    cairo_font_options_t *options = cairo_font_options_create ();
++    cairo_get_font_options (cairo, options);
++    cairo_font_set_hinting_options (options);
++    cairo_set_font_options (cairo, options);
++    cairo_font_options_destroy (options);
+     this->cairo = cairo_reference (cairo);
+ 	/* save the initial matrix so that we can use it for type3 fonts. */
+ 	//XXX: is this sufficient? could we miss changes to the matrix somehow?
+diff -Naur poppler-0.10.7.orig/poppler/Makefile.am poppler-0.10.7/poppler/Makefile.am
+--- poppler-0.10.7.orig/poppler/Makefile.am	2009-05-02 14:14:57.000000000 +0200
++++ poppler-0.10.7/poppler/Makefile.am	2009-06-20 17:19:51.000000000 +0200
+@@ -47,7 +47,9 @@
+ 	CairoFontEngine.cc			\
+ 	CairoFontEngine.h			\
+ 	CairoOutputDev.cc			\
+-	CairoOutputDev.h
++	CairoOutputDev.h			\
++	CairoFont.cc				\
++	CairoFont.h
+ 
+ endif
+ 
+@@ -113,7 +115,8 @@
+ 	$(arthur_includes)			\
+ 	$(abiword_includes)			\
+ 	$(FREETYPE_CFLAGS)			\
+-	$(FONTCONFIG_CFLAGS)
++	$(FONTCONFIG_CFLAGS)			\
++	$(GDK_CFLAGS)
+ 
+ lib_LTLIBRARIES = libpoppler.la
+ 
+@@ -134,7 +137,8 @@
+ 	$(FREETYPE_LIBS)			\
+ 	$(FONTCONFIG_LIBS)			\
+ 	$(PTHREAD_LIBS)				\
+-	$(win32_libs)
++	$(win32_libs)				\
++	$(GDK_LIBS)
+ 
+ libpoppler_la_LDFLAGS = -version-info 4:0:0 @create_shared_lib@
+ 
