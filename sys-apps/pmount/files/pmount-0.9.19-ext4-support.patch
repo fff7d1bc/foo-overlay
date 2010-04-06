@@ -1,0 +1,15 @@
+---
+ Allows mounting of ext4 filesystems.
+
+ Gentoo: https://bugs.gentoo.org/show_bug.cgi?id=265453
+
+--- a/src/fs.c	2009-02-12 23:45:40.000000000 +0100
++++ b/src/fs.c	2009-04-08 16:12:09.000000000 +0200
+@@ -26,6 +26,7 @@
+     { "hfsplus", "nosuid,nodev,user", 1, NULL, 0 },
+     { "hfs", "nosuid,nodev,user", 1, "077", NULL, 
+       ",file_umask=%04o,dir_umask=%04o"},
++    { "ext4", "nodev,noauto,nosuid,user,errors=continue", 0, NULL, 0 },
+     { "ext3", "nodev,noauto,nosuid,user,errors=continue", 0, NULL, 0 },
+     { "ext2", "nodev,noauto,nosuid,user,errors=continue", 0, NULL, 0 },
+     { "reiserfs", "nodev,noauto,nosuid,user", 0, NULL, 0 },
