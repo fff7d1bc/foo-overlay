@@ -1,5 +1,1 @@
-# Piotr Karbowski <jabberuser@gmail.com> (2-02-2010)
-# Newsbeuter fail at compiling, need find out why.
-=dev-libs/stfl-0.21
-=net-news/newsbeuter-2.1
 
