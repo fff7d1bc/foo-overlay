@@ -29,7 +29,7 @@ perl random_index realip secure_link stub_status sub xslt"
 NGINX_MODULES_MAIL="imap pop3 smtp"
 NGINX_MODULES_3RD="http_passenger http_push"
 
-IUSE="aio debug +http +http-cache ipv6 libatomic +pcre ssl"
+IUSE="aio debug +http +http-cache ipv6 libatomic +pcre ssl 3rdpartymodules"
 
 for mod in $NGINX_MODULES_STD; do
 	IUSE="${IUSE} +nginx_modules_http_${mod}"
