@@ -1,29 +1,36 @@
 diff --git a/src/fs.c b/src/fs.c
-index becd96f..111036d 100644
+index 65ea0c7..9874c8a 100644
 --- a/src/fs.c
 +++ b/src/fs.c
-@@ -21,18 +21,18 @@
+@@ -21,25 +21,25 @@
  static struct FS supported_fs[] = {
      { "udf", "nosuid,nodev,user", 1, "000", ",iocharset=%s" },
      { "iso9660", "nosuid,nodev,user", 1, NULL, ",iocharset=%s" },
 -    { "vfat", "nosuid,nodev,user,quiet,shortname=mixed", 1, "077", 
-+    { "vfat", "flush,nosuid,nodev,user,quiet,shortname=mixed", 1, "077", 
++    { "vfat", "flush.nosuid,nodev,user,quiet,shortname=mixed", 1, "077", 
        ",iocharset=%s",",fmask=%04o,dmask=%04o"},
      { "hfsplus", "nosuid,nodev,user", 1, NULL, 0 },
      { "hfs", "nosuid,nodev,user", 1, "077", NULL, 
        ",file_umask=%04o,dir_umask=%04o"},
--    { "ext4", "nodev,noauto,nosuid,user,errors=remount-ro", 0, NULL, 0 },
 -    { "ext3", "nodev,noauto,nosuid,user,errors=remount-ro", 0, NULL, 0 },
 -    { "ext2", "nodev,noauto,nosuid,user,errors=remount-ro", 0, NULL, 0 },
-+    { "ext4", "flush,nodev,noauto,nosuid,user,errors=remount-ro", 0, NULL, 0 },
+-    { "ext4", "nodev,noauto,nosuid,user,errors=remount-ro", 0, NULL, 0 },
 +    { "ext3", "flush,nodev,noauto,nosuid,user,errors=remount-ro", 0, NULL, 0 },
 +    { "ext2", "flush,nodev,noauto,nosuid,user,errors=remount-ro", 0, NULL, 0 },
++    { "ext4", "flush,nodev,noauto,nosuid,user,errors=remount-ro", 0, NULL, 0 },
      { "reiserfs", "nodev,noauto,nosuid,user", 0, NULL, 0 },
      { "reiser4", "nodev,noauto,nosuid,user", 0, NULL, 0 },
--    { "xfs", "nodev,noauto,nosuid,user", 0, NULL, 0 },
--    { "jfs", "nodev,noauto,nosuid,user,errors=remount-ro", 0, NULL, 
-+    { "xfs", "flush,nodev,noauto,nosuid,user", 0, NULL, 0 },
-+    { "jfs", "flush,nodev,noauto,nosuid,user,errors=remount-ro", 0, NULL, 
+     { "xfs", "nodev,noauto,nosuid,user", 0, NULL, 0 },
+     { "jfs", "nodev,noauto,nosuid,user,errors=remount-ro", 0, NULL, 
        ",iocharset=%s"},
      { "omfs", "nodev,noauto,nosuid,user", 0, NULL, 0 },
-     { "ntfs-fuse", "nosuid,nodev,user", 1, "077", 
+-    { "ntfs-fuse", "nosuid,nodev,user", 1, "077", 
++    { "ntfs-fuse", "flush,nosuid,nodev,user", 1, "077", 
+       NULL /* no nls support, it seems*/, ",fmask=%04o,dmask=%04o", 
+       1 /* skip detection */
+     },
+-    { "ntfs-3g", "nosuid,nodev,user", 1, "077", 
++    { "ntfs-3g", "flush,nosuid,nodev,user", 1, "077", 
+       NULL /* no nls support, it seems*/, ",fmask=%04o,dmask=%04o", 
+       1 /* skip detection */
+     },

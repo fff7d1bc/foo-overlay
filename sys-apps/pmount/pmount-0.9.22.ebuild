@@ -1,27 +1,26 @@
 # Copyright 1999-2010 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/sys-apps/pmount/pmount-0.9.20.ebuild,v 1.7 2010/01/30 18:15:30 jer Exp $
+# $Header: /var/cvsroot/gentoo-x86/sys-apps/pmount/pmount-0.9.22.ebuild,v 1.1 2010/05/14 21:15:17 ssuominen Exp $
 
 EAPI=2
 inherit base eutils
 
 DESCRIPTION="Policy based mounter that gives the ability to mount removable devices as a user"
 HOMEPAGE="http://pmount.alioth.debian.org/"
-SRC_URI="https://alioth.debian.org/frs/download.php/3127/${P}.tar.gz"
+SRC_URI="https://alioth.debian.org/frs/download.php/3293/${P}.tar.bz2"
 
 LICENSE="GPL-2"
 SLOT="0"
-KEYWORDS="alpha amd64 arm hppa ia64 ppc ppc64 sh sparc x86"
-IUSE="crypt hal"
+KEYWORDS="~alpha ~amd64 ~arm ~hppa ~ia64 ~ppc ~ppc64 ~sh ~sparc ~x86"
+IUSE="crypt"
 
 RDEPEND=">=sys-apps/util-linux-2.16
-	hal? ( >=sys-apps/dbus-0.33 >=sys-apps/hal-0.5.2 )
 	crypt? ( >=sys-fs/cryptsetup-1.0.5 )"
 DEPEND="${RDEPEND}
 	dev-util/intltool
 	sys-devel/gettext"
 
-PATCHES=( "${FILESDIR}/${P}-ext4-support.patch"	"${FILESDIR}/${PN}-0.9.19-testsuite-missing-dir.patch" "${FILESDIR}/pmount-flush-mount-opt.patch" )
+PATCHES=( "${FILESDIR}/${PN}-0.9.19-testsuite-missing-dir.patch" "${FILESDIR}/pmount-flush-mount-opt-0.9.22.patch" )
 
 pkg_setup() {
 	enewgroup plugdev
@@ -30,7 +29,7 @@ pkg_setup() {
 src_configure() {
 	econf \
 		--disable-dependency-tracking \
-		$(use_enable hal)
+		--disable-hal
 }
 
 src_test() {
@@ -39,25 +38,20 @@ src_test() {
 	ln -s $testdir/a $testdir/b && ln -s $testdir/d $testdir/c && \
 		ln -s $testdir/c $testdir/e \
 		|| die "Unable to create fake symlinks required for testsuite"
-	emake check || die "check failed"
+	emake check || die
 }
 
 src_install () {
 	# Must be run SETUID+SETGID, bug #250106
 	exeinto /usr/bin
 	exeopts -m 6710 -g plugdev
-	doexe src/pmount src/pumount || die "doexe failed"
+	doexe src/pmount src/pumount || die
 
-	dodoc AUTHORS ChangeLog TODO || die "dodoc failed"
-	doman man/pmount.1 man/pumount.1 || die "doman failed"
-
-	if use hal; then
-		doexe src/pmount-hal || die "doexe failed"
-		doman man/pmount-hal.1  || die "doman failed"
-	fi
+	dodoc AUTHORS ChangeLog TODO || die
+	doman man/pmount.1 man/pumount.1 || die
 
 	insinto /etc
-	doins etc/pmount.allow || die "doins failed"
+	doins etc/pmount.allow || die
 }
 
 pkg_postinst() {
