@@ -7,7 +7,7 @@ index 65ea0c7..9874c8a 100644
      { "udf", "nosuid,nodev,user", 1, "000", ",iocharset=%s" },
      { "iso9660", "nosuid,nodev,user", 1, NULL, ",iocharset=%s" },
 -    { "vfat", "nosuid,nodev,user,quiet,shortname=mixed", 1, "077", 
-+    { "vfat", "flush.nosuid,nodev,user,quiet,shortname=mixed", 1, "077", 
++    { "vfat", "flush,nosuid,nodev,user,quiet,shortname=mixed", 1, "077", 
        ",iocharset=%s",",fmask=%04o,dmask=%04o"},
      { "hfsplus", "nosuid,nodev,user", 1, NULL, 0 },
      { "hfs", "nosuid,nodev,user", 1, "077", NULL, 
