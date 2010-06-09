@@ -1,0 +1,4 @@
+# conf.d file for auto nice daemon
+#
+# Insert any other options needed
+AND_FLAGS=""

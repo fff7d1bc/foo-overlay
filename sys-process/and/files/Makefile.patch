@@ -1,0 +1,58 @@
+diff --git a/Makefile b/Makefile
+index 2b8f59e..e35bc4d 100644
+--- a/Makefile
++++ b/Makefile
+@@ -18,50 +18,11 @@
+ #
+ INITSCRIPT=and.init
+ 
+-#
+-# Target directories. Examples for common configurations are
+-# given below.
+-#
+-PREFIX=/usr/local
+-INSTALL_ETC=$(PREFIX)/etc
++PREFIX=/usr
++INSTALL_ETC=/etc
+ INSTALL_INITD=/etc/init.d
+ INSTALL_SBIN=$(PREFIX)/sbin
+-INSTALL_MAN=$(PREFIX)/man
+-
+-# typical OpenBSD or FreeBSD configuration
+-#PREFIX=/usr/local
+-#INSTALL_ETC=/etc
+-#INSTALL_INITD=
+-#INSTALL_SBIN=$(PREFIX)/sbin
+-#INSTALL_MAN=$(PREFIX)/man
+-
+-# typical Debian or SuSE 7.x configuration
+-#PREFIX=/usr
+-#INSTALL_ETC=/etc
+-#INSTALL_INITD=/etc/init.d
+-#INSTALL_SBIN=$(PREFIX)/sbin
+-#INSTALL_MAN=$(PREFIX)/share/man
+-
+-# typical SuSE 6.x configuration
+-#PREFIX=/usr
+-#INSTALL_ETC=/etc
+-#INSTALL_INITD=/sbin/init.d
+-#INSTALL_SBIN=$(PREFIX)/sbin
+-#INSTALL_MAN=$(PREFIX)/man
+-
+-# typical Redhat / Mandrake configuration
+-#PREFIX=/usr
+-#INSTALL_ETC=/etc
+-#INSTALL_INITD=/etc/rc.d/init.d
+-#INSTALL_SBIN=$(PREFIX)/sbin
+-#INSTALL_MAN=$(PREFIX)/share/man
+-
+-# typical OSF/1 / Digital UNIX 4 configuration
+-#PREFIX=/usr/local
+-#INSTALL_ETC=/etc
+-#INSTALL_INITD=/sbin/init.d
+-#INSTALL_SBIN=$(PREFIX)/sbin
+-#INSTALL_MAN=$(PREFIX)/man
++INSTALL_MAN=$(PREFIX)/share/man
+ 
+ #
+ # Install program
