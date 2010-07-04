@@ -1,6 +1,6 @@
 # Copyright 1999-2010 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/www-servers/nginx/nginx-0.8.38.ebuild,v 1.2 2010/05/30 07:23:04 hollow Exp $
+# $Header: /var/cvsroot/gentoo-x86/www-servers/nginx/nginx-0.8.42.ebuild,v 1.1 2010/07/02 05:29:22 dev-zero Exp $
 
 EAPI="2"
 
@@ -23,40 +23,35 @@ HTTP_HEADERS_MORE_MODULE_SHA1="5cd9a38"
 
 # http_passenger (http://www.modrails.com/, MIT license)
 # TODO: currently builds some stuff in src_configure
-PASSENGER_PV="2.2.11"
+PASSENGER_PV="2.2.12"
 USE_RUBY="ruby18"
 RUBY_OPTIONAL="yes"
 
 # http_push (http://pushmodule.slact.net/, MIT license)
 HTTP_PUSH_MODULE_P="nginx_http_push_module-0.692"
 
-# http_uwsgi (http://projects.unbit.it/uwsgi/, GPL-2 license)
-HTTP_UWSGI_MODULE_PV="0.9.5"
-
 inherit eutils ssl-cert toolchain-funcs perl-module ruby-ng flag-o-matic
 
 DESCRIPTION="Robust, small and high performance http and reverse proxy server"
 HOMEPAGE="http://nginx.net/
 	http://www.modrails.com/
-	http://pushmodule.slact.net/
-	http://projects.unbit.it/uwsgi/"
+	http://pushmodule.slact.net/"
 SRC_URI="http://sysoev.ru/nginx/${P}.tar.gz
 	nginx_modules_http_headers_more? ( http://github.com/agentzh/headers-more-nginx-module/tarball/v${HTTP_HEADERS_MORE_MODULE_PV} -> ${HTTP_HEADERS_MORE_MODULE_P}.tar.gz )
 	nginx_modules_http_passenger? ( mirror://rubyforge/passenger/passenger-${PASSENGER_PV}.tar.gz )
-	nginx_modules_http_push? ( http://pushmodule.slact.net/downloads/${HTTP_PUSH_MODULE_P}.tar.gz )
-	nginx_modules_http_uwsgi? ( http://projects.unbit.it/downloads/uwsgi-${HTTP_UWSGI_MODULE_PV}.tar.gz )"
+	nginx_modules_http_push? ( http://pushmodule.slact.net/downloads/${HTTP_PUSH_MODULE_P}.tar.gz )"
 
 LICENSE="BSD BSD-2 GPL-2 MIT"
 SLOT="0"
 KEYWORDS="~amd64 ~ppc ~x86 ~x86-fbsd"
 
 NGINX_MODULES_STD="access auth_basic autoindex browser charset empty_gif fastcgi
-geo gzip limit_req limit_zone map memcached proxy referer rewrite ssi
-split_clients upstream_ip_hash userid"
+geo gzip limit_req limit_zone map memcached proxy referer rewrite scgi ssi
+split_clients upstream_ip_hash userid uwsgi"
 NGINX_MODULES_OPT="addition dav degradation flv geoip gzip_static image_filter
 perl random_index realip secure_link stub_status sub xslt"
 NGINX_MODULES_MAIL="imap pop3 smtp"
-NGINX_MODULES_3RD="http_headers_more http_passenger http_push http_uwsgi"
+NGINX_MODULES_3RD="http_headers_more http_passenger http_push"
 
 IUSE="aio debug +http +http-cache ipv6 libatomic +pcre ssl vim-syntax 3rdpartymodules"
 
@@ -154,10 +149,11 @@ src_prepare() {
 src_configure() {
 	local myconf= http_enabled= mail_enabled=
 
-	use 3rdpartymodules && {
-		test -d /usr/src/nginx-modules.d || die "There is no /usr/src/nginx-modules.d dir."
+	if use 3rdpartymodules; then 
+		[ -d /usr/src/nginx-modules.d ] || die "There is no /usr/src/nginx-modules.d dir."
 		myconf="${myconf} $(for ngx_3rdparty_modules in /usr/src/nginx-modules.d/*; do echo "--add-module=${ngx_3rdparty_modules} "; done)"
-	}
+	fi
+
 	use aio && myconf="${myconf} --with-file-aio --with-aio_module"
 	use debug && myconf="${myconf} --with-debug"
 	use ipv6 && myconf="${myconf} --with-ipv6"
@@ -198,11 +194,6 @@ src_configure() {
 	if use nginx_modules_http_push; then
 		http_enabled=1
 		myconf="${myconf} --add-module=${WORKDIR}/${HTTP_PUSH_MODULE_P}"
-	fi
-
-	if use nginx_modules_http_uwsgi; then
-		http_enabled=1
-		myconf="${myconf} --add-module=${WORKDIR}/uwsgi-${HTTP_UWSGI_MODULE_PV}/nginx"
 	fi
 
 	if use http || use http-cache; then
@@ -253,6 +244,8 @@ src_configure() {
 		--http-client-body-temp-path=/var/tmp/${PN}/client \
 		--http-proxy-temp-path=/var/tmp/${PN}/proxy \
 		--http-fastcgi-temp-path=/var/tmp/${PN}/fastcgi \
+		--http-scgi-temp-path=/var/tmp/${PN}/scgi \
+		--http-uwsgi-temp-path=/var/tmp/${PN}/uwsgi \
 		${myconf} || die "configure failed"
 }
 
@@ -263,10 +256,10 @@ src_compile() {
 }
 
 src_install() {
-	keepdir /var/log/${PN} /var/tmp/${PN}/{client,proxy,fastcgi}
+	keepdir /var/log/${PN} /var/tmp/${PN}/{client,proxy,fastcgi,scgi,uwsgi}
 
 	dosbin objs/nginx
-	newinitd "${FILESDIR}"/nginx.init-slashbeast-r2 nginx
+	newinitd "${FILESDIR}"/nginx.init-r2 nginx
 
 	cp "${FILESDIR}"/nginx.conf-r4 conf/nginx.conf
 	rm conf/win-utf conf/koi-win conf/koi-utf
@@ -290,11 +283,6 @@ src_install() {
 	if use nginx_modules_http_push; then
 		docinto ${HTTP_PUSH_MODULE_P}
 		dodoc "${WORKDIR}"/${HTTP_PUSH_MODULE_P}/{changelog.txt,protocol.txt,README}
-	fi
-
-	if use nginx_modules_http_uwsgi; then
-		insinto /etc/nginx
-		doins "${WORKDIR}"/uwsgi-${HTTP_UWSGI_MODULE_PV}/nginx/uwsgi_params
 	fi
 
 	if use nginx_modules_http_passenger; then
