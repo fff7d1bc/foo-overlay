@@ -162,7 +162,7 @@ src_configure() {
 
 	if use 3rdpartymodules; then 
 		[ -d /usr/src/nginx-modules.d ] || die "There is no /usr/src/nginx-modules.d dir."
-		myconf="${myconf} $(for ngx_3rdparty_modules in /usr/src/nginx-modules.d/*; do echo "--add-module=${ngx_3rdparty_modules} "; done)"
+		for ngx_3rdparty_modules in $(find /usr/src/nginx-modules.d/* -maxdepth 0 -type d); do myconf+=" --add-module=$ngx_3rdparty_modules"; done
 	fi
 
 	use aio && myconf="${myconf} --with-file-aio --with-aio_module"
