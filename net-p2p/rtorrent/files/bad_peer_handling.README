@@ -1,55 +1,63 @@
 Automated handling of leechers and other uncooperative peers.
 
+  original author  :  Josef Drexler
+  patch name       :  bad_peer_handling.diff
+  supported version:  rTorrent 0.8.5 / libtorrent 0.12.5
+
 Adds the following commands:
+
 d.snub_leechers=snub_ratio,unsnub_ratio,min_transfer
-     Snub peers (i.e. stop uploading to them) who download far more than they
-     upload. They're snubbed when their ratio exceeds the snub_ratio,
-     and unsnubbed when they drop below the unsnub_ratio again. For example,
-     a snub_ratio of 10 means the peer gets snubbed if we send more than
-     ten times the amount that we've received from them. Don't set
-     snub_ratio too low, a value of 5-10 seems to work best. The first
-     min_transfer bytes is uploaded for "free" without snubbing.
+ Snub peers (i.e. stop uploading to them) who download far more than they
+ upload. They're snubbed when their ratio exceeds the snub_ratio, and unsnubbed
+ when they drop below the unsnub_ratio again. For example, a snub_ratio of 10
+ means the peer gets snubbed if we send more than ten times the amount that
+ we've received from them. Don't set snub_ratio too low, a value of 5-10 seems
+ to work best. The first min_transfer bytes is uploaded for "free" without
+ snubbing.
+
 d.unsnub_peers=
-     Unsnub all snubbed peers, e.g. for use when the download is finished
-     and we no longer have anything we want to download anyway.
+ Unsnub all snubbed peers, e.g. for use when the download is
+ finished and we no longer have anything we want to download anyway.
+
 d.ban_slow_peers=min_seeds,min_rate,amount1,time1[,amount2,time2[,...]]
-     Ban peers whose upload is too slow, for instance hacked peers, badly
-     throttled connections or ISPs with excessive bandwidth shaping. This
-     clears up the peer list and allows connecting to better peers, to
-     prevent staying connected forever to peers that never send data.
-     Always keeps at least the set min_peers for the download, and at least
-     as many seeds as min_seeds as well as all peers currently sending at a
-     rate of min_rate or above. A peer is too slow if after time1 has elapsed,
-     it has sent less than amount1, or amount2 after time2, etc.
+ Ban peers whose upload is too slow, for instance hacked peers, badly throttled
+ connections or ISPs with excessive bandwidth shaping. This clears up the peer
+ list and allows connecting to better peers, to prevent staying connected
+ forever to peers that never send data.  Always keeps at least the set min_peers
+ for the download, and at least as many seeds as min_seeds as well as all peers
+ currently sending at a rate of min_rate or above. A peer is too slow if after
+ time1 has elapsed, it has sent less than amount1, or amount2 after time2, etc.
+
 d.unban_peers=
-     Unban all peers, including those banned manually with shift-B.
+ Unban all peers, including those banned manually with shift-B.
 
-Note that peers marked as friends (if you have applied that patch) will
-never be snubbed or banned by these commands.
+Note that peers marked as friends (if you have applied that patch) will never
+be snubbed or banned by these commands.
 
-There are also global "snub_leechers" and "ban_slow_peers" commands which
-take the same arguments and apply them to all unfinished downloads (except
-those set to ignore commands).
+There are also global "snub_leechers" and "ban_slow_peers" commands which take
+the same arguments and apply them to all unfinished downloads (except those set
+to ignore commands).
 
-Note that the commands usually don't work well for poorly seeded torrents
-or those being seeded initially, then unreasonably many peers will be
-snubbed/banned. You should set the ignore_commands flag for such downloads,
-or avoid using the global commands and instead only apply the
-download-specific commands to the particular downloads that need them (e.g.
-using d.multicall on a custom view that only contains appropriate downloads).
+Note that the commands usually don't work well for poorly seeded torrents or
+those being seeded initially, then unreasonably many peers will be
+snubbed/banned. You should set the ignore_commands flag for such downloads, or
+avoid using the global commands and instead only apply the download-specific
+commands to the particular downloads that need them (e.g.  using d.multicall on
+a custom view that only contains appropriate downloads).
 
+The following are added to your .rtorrent.rc
 
-Example: (this seems to work fine for a typical ADSL line)
-schedule = snub_leechers,120,120,"snub_leechers=10,5,1M"
-schedule = ban_slow_peers,120,120,"ban_slow_peers=5,2K,64K,5,128K,10,1M,30"
-on_finished = unban,"d.unban_peers="
-on_finished = unsnub,"d.unsnub_peers="
+Example: (this seems to work fine for a typical FIOS line)
+ schedule = snub_leechers,120,120,"snub_leechers=10,5,1M"
+ schedule = ban_slow_peers,120,120,"ban_slow_peers=5,2K,64K,5,128K,10,1M,30"
+ system.method.set_key = event.download.finished,unban,"d.unban_peers="
+ system.method.set_key = event.download.finished,unsnub,"d.unsnub_peers="
 
-Snub peers after sending 1MB to them if they don't upload at least 1/10th in return.
-Unsnub them when they upload to a ratio of 1/5th, and when the download finishes.
+Snub peers after sending 1MB to them if they don't upload at least 1/10th in
+return.  Unsnub them when they upload to a ratio of 1/5th, and when the
+download finishes.
 
 Ban peers after 5 minutes unless they've uploaded less than 64KB, after 10 min
-and less than 128 K or after 30 min and under 1MB upload. Keep at least 5 seeds,
-and all peers currently uploading at 2KB/s or faster.
-Unban peers when the download finishes.
-
+and less than 128 K or after 30 min and under 1MB upload. Keep at least 5
+seeds, and all peers currently uploading at 2KB/s or faster.  Unban peers when
+the download finishes.
