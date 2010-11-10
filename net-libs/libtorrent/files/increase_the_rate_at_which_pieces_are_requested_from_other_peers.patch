@@ -1,0 +1,13 @@
+diff --git a/src/protocol/peer_connection_leech.cc b/src/protocol/peer_connection_leech.cc
+index a75d333..8257d0a 100644
+--- a/src/protocol/peer_connection_leech.cc
++++ b/src/protocol/peer_connection_leech.cc
+@@ -151,7 +151,7 @@ PeerConnection<type>::receive_keepalive() {
+   // Do we also need to remove from download throttle? Check how it
+   // worked again.
+ 
+-  if (!download_queue()->canceled_empty() && m_downStall >= 6)
++  if (!download_queue()->canceled_empty() && m_downStall >= 2)
+     download_queue()->cancel();
+   else if (!download_queue()->queued_empty() && m_downStall++ != 0)
+     download_queue()->stall();

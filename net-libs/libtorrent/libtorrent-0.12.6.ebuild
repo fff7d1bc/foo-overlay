@@ -12,7 +12,7 @@ SRC_URI="http://libtorrent.rakshasa.no/downloads/${P}.tar.gz"
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="amd64 ~arm hppa ~ia64 ppc ppc64 ~sparc x86 ~x86-fbsd"
-IUSE="debug ipv6 ssl +bad_peer_handling"
+IUSE="debug ipv6 ssl +bad_peer_handling +aggressive_optimizations"
 
 RDEPEND=">=dev-libs/libsigc++-2.2.2:2
 	ssl? ( dev-libs/openssl )"
@@ -20,6 +20,12 @@ DEPEND="${RDEPEND}
 	dev-util/pkgconfig"
 
 src_prepare() {
+	if use aggressive_optimizations; then
+		epatch "${FILESDIR}/decrease_the_time_delay_when_your_client_connects_to_the_trackers.patch"
+		epatch "${FILESDIR}/disconnect_idle_clients_quickly.patch"
+		epatch "${FILESDIR}/quicker_ncurses_gui_update.patch"
+		epatch "${FILESDIR}/increase_the_rate_at_which_pieces_are_requested_from_other_peers.patch"
+	fi
 	epatch "${FILESDIR}"/${P}-gcc44.patch
 	if use bad_peer_handling; then
 		epatch "${FILESDIR}/bad_peer_handling.patch"
@@ -35,6 +41,7 @@ src_configure() {
 		$(use_enable ipv6) \
 		$(use_enable ssl openssl) \
 		--with-posix-fallocate
+
 }
 
 src_install() {
