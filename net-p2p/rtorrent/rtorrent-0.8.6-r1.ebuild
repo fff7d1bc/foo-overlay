@@ -64,7 +64,6 @@ pkg_postinst() {
 	if use bad_peer_handling; then
 		echo
 		einfo
-		einfo 'rtorrent was built with bad_pear_handling patch enabled!'
 		einfo 'You need edit your .rtorrent.rc in order to enable bad_pear_handling'
 		einfo 'Example:'
 		einfo 'schedule = snub_leechers,120,120,"snub_leechers=10,5,1M"'
