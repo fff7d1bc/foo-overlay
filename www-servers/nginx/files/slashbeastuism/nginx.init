@@ -1,7 +1,6 @@
 #!/sbin/runscript
 # Copyright 1999-2004 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/www-servers/nginx/files/nginx.init-r2,v 1.1 2010/01/03 19:51:41 djc Exp $
 
 opts="${opts} upgrade reload configtest"
 
@@ -64,7 +63,16 @@ upgrade() {
 	eend $? "Upgrade failed"
 }
 
+tmpdircheck() {
+	ebegin "Checking nginx's tmp dir"
+	if [ ! -d /var/tmp/nginx ]; then
+		install --directory '/var/tmp/nginx' --mode='770' --owner='nginx' --group='nginx'
+	fi
+	eend $? "failed."
+}
+
 configtest() {
+	tmpdircheck
 	ebegin "Checking nginx' configuration"
 	/usr/sbin/nginx -c /etc/nginx/nginx.conf -t
 	eend $? "failed, please correct errors above"
