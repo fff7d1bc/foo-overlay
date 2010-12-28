@@ -4,8 +4,9 @@
 
 /var/log/nginx/*_log {
 	daily
+	#rotate 31
 	compress
-	ompresscmd /bin/bzip2
+	compresscmd /bin/bzip2
 	compressoptions --best
 	compressext .bz2
 	missingok
