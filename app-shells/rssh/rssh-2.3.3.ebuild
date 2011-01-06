@@ -36,3 +36,14 @@ src_install() {
 	make install DESTDIR="${D}" || die
 	dodoc AUTHORS ChangeLog CHROOT INSTALL README TODO
 }
+
+pkg_postinst() {
+	if ! egrep -q '^/usr/bin/rssh$' '/etc/shells'; then
+		echo
+		ewarn
+		ewarn "You have to add '/usr/bin/rssh' to /etc/shells file."
+		ewarn "Otherwise you will be not able to use it as login shell."
+		ewarn
+		echo
+	fi
+}
