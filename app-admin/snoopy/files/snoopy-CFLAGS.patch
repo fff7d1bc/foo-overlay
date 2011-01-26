@@ -1,0 +1,29 @@
+From b71d5fca0456cb27f8c5b10c32e32b8a4782de48 Mon Sep 17 00:00:00 2001
+From: Piotr Karbowski <piotr@funtoo.org>
+Date: Wed, 26 Jan 2011 00:18:17 +0100
+Subject: [PATCH] Respect CFLAGS variable.
+
+---
+ Makefile.in |    4 ++--
+ 1 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/Makefile.in b/Makefile.in
+index 4c66118..6a66170 100644
+--- a/Makefile.in
++++ b/Makefile.in
+@@ -16,10 +16,10 @@ LIBDIR=@libdir@
+ all: snoopy.so detect
+ 
+ snoopy.so:  snoopy.c snoopy.h
+-	$(CC) $(CFLAGS) -shared -O3 -fomit-frame-pointer -fPIC snoopy.c -osnoopy.so $(LDFLAGS)
++	$(CC) $(CFLAGS) -shared -fPIC snoopy.c -osnoopy.so $(LDFLAGS)
+ 
+ detect: detect.c
+-	$(CC) detect.c -odetect $(LDFLAGS)
++	$(CC) $(CFLAGS) detect.c -odetect $(LDFLAGS)
+ 
+ 
+ 
+-- 
+1.7.4.rc3
+
