@@ -33,7 +33,7 @@ src_install() {
 	doins -r * || die
 	doins "${FILESDIR}/dropbox-cli" || die
 	fperms a+x "${targetdir}/dropbox" || die
-	fperms a+x "${targetdir}/dropbox-cli"
-	dosym "${targetdir}/dropbox-cli" "${targetdir}/dropboxd"
+	fperms a+x "${targetdir}/dropbox-cli" || die
+	dosym "${targetdir}/dropbox-cli" "${targetdir}/dropboxd" || die
 	dosym "${targetdir}/dropbox-cli" "/opt/bin/dropbox" || die
 }
