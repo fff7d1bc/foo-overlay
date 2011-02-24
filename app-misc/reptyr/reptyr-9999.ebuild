@@ -18,6 +18,5 @@ RDEPEND="${DEPEND}"
 
 
 src_install() {
-	dobin reptyr
-	dodoc README NOTES COPYING
+	make DESTDIR="${D}" install || die
 }

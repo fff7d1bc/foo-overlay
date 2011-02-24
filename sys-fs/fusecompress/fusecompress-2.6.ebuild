@@ -9,8 +9,10 @@ inherit autotools
 DESCRIPTION="provides a mountable Linux filesystem which transparently compress
 its content"
 HOMEPAGE="http://miio.net/wordpress/projects/fusecompress/"
-SRC_URI="https://github.com/tex/${PN}/tarball/${PV} -> ${PN}-git-${PV}.tgz"
 
+github_user="tex"
+github_tag="${PV}"
+SRC_URI="https://github.com/${github_user}/${PN}/tarball/${github_tag} -> ${PN}-git-${PV}.tgz"
 
 LICENSE="GPL-2"
 SLOT="0"
@@ -25,11 +27,12 @@ DEPEND=">=dev-libs/boost-1.33.1
 "
 RDEPEND="${DEPEND}"
 
-src_prepare() {
-	# Ugly, but there is no better way to do it.
-	cd "${WORKDIR}"/tex-${PN}-*
-	S="$(pwd)"
+src_unpack() {
+	unpack ${A}
+	mv "${WORKDIR}/${github_user}-${PN}"-??????? "${S}" || die
+}
 
+src_prepare() {
 	# Patches from debian's fusecomrpess-2.6-3.
 	epatch "${FILESDIR}/2.6-fix-manpages.patch"
 	epatch "${FILESDIR}/2.6_Fix-compilation-failing-with-new-boost-library.patch"
