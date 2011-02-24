@@ -12,7 +12,7 @@ SRC_URI="http://libtorrent.rakshasa.no/downloads/${P}.tar.gz"
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="amd64 ~arm hppa ~ia64 ppc ppc64 ~sparc x86 ~x86-fbsd"
-IUSE="debug ipv6 ssl +bad_peer_handling +aggressive_optimizations"
+IUSE="debug ipv6 ssl +aggressive_optimizations"
 
 RDEPEND=">=dev-libs/libsigc++-2.2.2:2
 	ssl? ( dev-libs/openssl )"
@@ -26,10 +26,7 @@ src_prepare() {
 		epatch "${FILESDIR}/quicker_ncurses_gui_update.patch"
 		epatch "${FILESDIR}/increase_the_rate_at_which_pieces_are_requested_from_other_peers.patch"
 	fi
-	epatch "${FILESDIR}"/${P}-gcc44.patch
-	if use bad_peer_handling; then
-		epatch "${FILESDIR}/bad_peer_handling.patch"
-	fi
+	epatch "${FILESDIR}"/libtorrent-0.12.6-gcc44.patch
 	elibtoolize
 }
 
