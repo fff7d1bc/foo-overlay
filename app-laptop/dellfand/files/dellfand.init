@@ -1,0 +1,12 @@
+#!/sbin/runscript
+
+pidfile='/var/run/dellfand.pid'
+
+start() {
+	ebegin "Starting dellfand"
+	start-stop-daemon --background --pidfile "${pidfile}" --make-pidfile \
+		/usr/sbin/dellfand 0 ${sleep_time} ${fan_off_temp} ${fan_on_lowspeed_temp} ${fan_on_high_speed_temp}
+	eend $?
+}
+
+
