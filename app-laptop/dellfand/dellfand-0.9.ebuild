@@ -1,5 +1,7 @@
 EAPI=4
 
+inherit autotools
+
 DESCRIPTION="Dell laptop fan regulator for Linux/Solaris."
 HOMEPAGE="http://dellfand.dinglisch.net/"
 SRC_URI="http://dellfand.dinglisch.net/dellfand-${PV}.tar.bz2"
@@ -11,6 +13,11 @@ IUSE=""
 
 DEPEND=""
 RDEPEND="${DEPEND}"
+
+
+src_prepare() {
+	epatch "${FILESDIR}/dellfand-include-fix.patch" || die
+}
 
 src_compile() {
 	emake || die

@@ -1,0 +1,24 @@
+From 0e1d4068e79c8a15ae51ff7a4b128ac538cf87de Mon Sep 17 00:00:00 2001
+From: Piotr Karbowski <piotr.karbowski@gmail.com>
+Date: Thu, 31 Mar 2011 22:47:05 +0200
+Subject: [PATCH] Fix for: error: 'umask' was not declared in this scope.
+
+---
+ dellfand.cc |    1 +
+ 1 files changed, 1 insertions(+), 0 deletions(-)
+
+diff --git a/dellfand.cc b/dellfand.cc
+index d590410..a7a3793 100644
+--- a/dellfand.cc
++++ b/dellfand.cc
+@@ -26,6 +26,7 @@
+ #else
+ #include <sys/io.h>
+ #endif
++#include <sys/stat.h>
+ 
+ #include <stdio.h>
+ #include <stdlib.h>
+-- 
+1.7.4.1
+
