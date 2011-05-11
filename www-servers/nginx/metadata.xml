@@ -3,12 +3,7 @@
 <pkgmetadata>
 	<herd>no-herd</herd>
 	<maintainer>
-		<email>hollow@gentoo.org</email>
-		<name>Benedikt Böhm</name>
-	</maintainer>
-	<maintainer>
-		<email>dev-zero@gentoo.org</email>
-		<name>Tiziano Müller</name>
+		<email>piotr.karbowski@gmail.com</email>
 	</maintainer>
 	<use>
 		<flag name='addition'>Enables HTTP addition filter module</flag>
