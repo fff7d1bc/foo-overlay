@@ -1,6 +1,6 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=3
+EAPI=4
 if [ "$PV" = 9999 ]; then
 	inherit git
 	EGIT_REPO_URI="https://github.com/nelhage/reptyr.git"
@@ -21,20 +21,17 @@ IUSE=""
 DEPEND=""
 RDEPEND="${DEPEND}"
 
-if [ "$PV" != 9999 ]; then
+if [ "$PV" != '9999' ]; then
 	src_unpack() {
 		unpack ${A} || die
-		mv "${WORKDIR}/${github_user}-${PN}"-??????? "${S}" || die
+		mv "${WORKDIR}/${github_user}-${PN}"-??????? "${S}"
 	}
 fi
 
-src_prepare() {
-	sed ${S}/Makefile -i \
-		-e 's!/usr/local!/usr!' \
-		-e 's!CFLAGS=!CFLAGS+= !' \
-		|| die 'sed failed.'
+src_compile() {
+	emake CFLAGS="${CFLAGS}"
 }
 
 src_install() {
-	make DESTDIR="${D}" install || die
+	make DESTDIR="${D}" PREFIX="/usr" install
 }
