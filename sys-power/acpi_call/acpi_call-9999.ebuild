@@ -1,8 +1,4 @@
-# Copyright 1999-2011 Gentoo Foundation
-# Distributed under the terms of the GNU General Public License v2
-# $Header: $
-
-EAPI=3
+EAPI='4'
 
 EGIT_REPO_URI="git://github.com/mkottman/acpi_call.git"
 
@@ -15,13 +11,37 @@ SRC_URI=""
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
-IUSE=""
+IUSE="+scripts"
 
 CONFIG_CHECK="ACPI"
 MODULE_NAMES="acpi_call(misc:${S})"
 BUILD_TARGETS="clean default"
 
-src_compile(){
+src_compile() {
 	BUILD_PARAMS="KDIR=${KV_OUT_DIR} M=${S}"
 	linux-mod_src_compile
+}
+
+src_install() {
+	linux-mod_src_install
+
+	mkdir "${D}/usr/share/${PN}" -p
+	cp "${S}/README" "${D}/usr/share/${PN}"
+	ecompress --queue "${D}/usr/share/${PN}/README"
+
+	if use scripts; then
+		cp ${S}/*.sh "${D}/usr/share/${PN}"
+	fi
+}
+
+pkg_postinst() {
+	linux-mod_pkg_postinst
+
+	if use scripts; then
+		echo
+		einfo
+		einfo "Scripts shipped with acpi_call was installed into '/usr/share/${PN}'."
+		einfo
+		echo
+	fi
 }
