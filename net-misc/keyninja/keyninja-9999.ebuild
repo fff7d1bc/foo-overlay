@@ -2,7 +2,7 @@ inherit git
 
 EAPI=4
 
-DESCRIPTION=""
+DESCRIPTION="Damn lightweight solution to share one ssh-agent between shells."
 HOMEPAGE="https://github.com/slashbeast/keyninja"
 
 EGIT_REPO_URI="https://github.com/slashbeast/keyninja.git"
