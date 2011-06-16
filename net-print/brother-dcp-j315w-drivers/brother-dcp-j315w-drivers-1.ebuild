@@ -38,6 +38,8 @@ src_install() {
 	( cd ${D}/usr/libexec/cups/filter/ && ln -s ../../../../opt/Brother/Printer/dcpj315w/lpd/filterdcpj315w brlpdwrapperdcpj315w ) || die
 	mkdir -p ${D}/usr/local || die
 	( cd ${D}/usr/local && ln -s ../../opt/Brother Brother ) || die
+	mkdir -p ${D}/usr/share/cups/model || die
+	( cd ${D}/usr/share/cups/model && ln -s ../../../../opt/Brother/Printer/dcpj315w/cupswrapper/brdcpj315w.ppd ) || die
 
 
 }
