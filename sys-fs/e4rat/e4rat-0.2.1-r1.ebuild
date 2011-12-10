@@ -36,7 +36,6 @@ src_prepare() {
 }
 
 src_compile() {
-	einfo ASD
 	cd "$S"
 	gcc -std=c99 -Wall -O2 -o e4rat-preload-lite e4rat-preload-lite.c
 
