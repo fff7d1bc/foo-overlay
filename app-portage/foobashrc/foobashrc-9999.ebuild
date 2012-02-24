@@ -5,7 +5,7 @@ EAPI=3
 DESCRIPTION=""
 HOMEPAGE="https://github.com/slashbeast/foobashrc"
 
-EGIT_REPO_URI="https://github.com/slashbeast/foobashrc.git"
+EGIT_REPO_URI="git://github.com/slashbeast/foobashrc.git"
 KEYWORDS="~amd64 ~x86"
 LICENSE="BSD"
 SLOT="0"
