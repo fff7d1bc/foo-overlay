@@ -1,4 +1,4 @@
-inherit git
+inherit git-2
 
 EAPI=3
 

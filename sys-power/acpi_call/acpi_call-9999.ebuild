@@ -2,7 +2,7 @@ EAPI='4'
 
 EGIT_REPO_URI="git://github.com/mkottman/acpi_call.git"
 
-inherit git linux-info linux-mod
+inherit git-2 linux-info linux-mod
 
 DESCRIPTION="A kernel module that enables you to call ACPI methods"
 HOMEPAGE="http://github.com/mkottman/acpi_call"

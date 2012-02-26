@@ -4,7 +4,7 @@ DESCRIPTION="Crux's utilities to manage software packages."
 HOMEPAGE="http://crux.nu/"
 
 if [ "$PV" = 9999 ]; then
-	inherit git
+	inherit git-2
 	EGIT_REPO_URI="git://crux.nu/tools/pkgutils.git"
 	KEYWORDS=""
 else
