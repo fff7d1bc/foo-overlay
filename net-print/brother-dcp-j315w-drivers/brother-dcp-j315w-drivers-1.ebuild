@@ -49,7 +49,7 @@ pkg_postinst () {
 	elog
 	elog "For more options just execute brprintconf_dcpj315w as root"
 	elog "You can check current settings in:"
-	elog "		/opt/Brother/Printer/dcpj315w/inf/brdcpj315wrc"
+	elog "		/usr/local/Brother/Printer/dcpj315w/inf/brdcpj315wrc"
 }
 
 # TODO: Write alternative to filterdcpj315w or patch it for the security manner.
