@@ -28,15 +28,12 @@ src_install() {
 
 	dosbin "${WORKDIR}/usr/bin/brprintconf_dcpj315w"
 
-	mkdir -p ${D}/opt/Brother || die
-	cp -r ${WORKDIR}/usr/local/Brother/* ${D}/opt/Brother/ || die
+	cp -r usr "${D}" || die
 
 	mkdir -p ${D}/usr/libexec/cups/filter || die
-	( cd ${D}/usr/libexec/cups/filter/ && ln -s ../../../../opt/Brother/Printer/dcpj315w/lpd/filterdcpj315w brlpdwrapperdcpj315w ) || die
-	mkdir -p ${D}/usr/local || die
-	( cd ${D}/usr/local && ln -s ../../opt/Brother Brother ) || die
+	( cd ${D}/usr/libexec/cups/filter/ && ln -s ../../../../usr/local/Brother/Printer/dcpj315w/lpd/filterdcpj315w brlpdwrapperdcpj315w ) || die
 	mkdir -p ${D}/usr/share/cups/model || die
-	( cd ${D}/usr/share/cups/model && ln -s ../../../../opt/Brother/Printer/dcpj315w/cupswrapper/brdcpj315w.ppd ) || die
+	( cd ${D}/usr/share/cups/model && ln -s ../../../../usr/local/Brother/Printer/dcpj315w/cupswrapper/brdcpj315w.ppd ) || die
 }
 
 pkg_postinst () {
