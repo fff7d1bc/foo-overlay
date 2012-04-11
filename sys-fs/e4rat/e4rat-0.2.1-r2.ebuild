@@ -33,6 +33,7 @@ pkg_setup() {
 }
 
 src_prepare() {
+	base_src_prepare
 	cp "${FILESDIR}/e4rat-preload-lite.c" "$S"
 }
 
