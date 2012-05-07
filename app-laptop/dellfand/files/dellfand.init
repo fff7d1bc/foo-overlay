@@ -1,4 +1,5 @@
 #!/sbin/runscript
+extra_commands='reset'
 
 pidfile='/var/run/dellfand.pid'
 
@@ -9,4 +10,14 @@ start() {
 	eend $?
 }
 
+reset() {
+	ebegin "Reseting fan state"
+	stop
+	/usr/sbin/dellfand 0 1 25 25 25 >/dev/null 2>&1 &
+	reset_pid="$!"
+	sleep 3
+	kill "$reset_pid"
+	eend $?
+	start
+}
 
