@@ -4,7 +4,7 @@ inherit autotools
 
 DESCRIPTION="Dell laptop fan regulator for Linux/Solaris."
 HOMEPAGE="http://dellfand.dinglisch.net/"
-SRC_URI="http://dellfand.dinglisch.net/dellfand-${PV}.tar.bz2"
+SRC_URI="https://github.com/downloads/slashbeast/foo-overlay/$PN-$PV.tar.bz2"
 
 LICENSE="GPL-2"
 SLOT="0"
