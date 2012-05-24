@@ -26,6 +26,9 @@ src_unpack() {
 
 src_install() {
 	cp -r usr "${D}" || die
+
+	# Preserve config, brsaneconfig3 will create the file for us.
+	rm "${D}/usr/local/Brother/sane/brsanenetdevice3.cfg"
 }
 
 pkg_postinst() {
@@ -34,6 +37,7 @@ pkg_postinst() {
 	einfo "In order to use scanner you need to add it first with setupSaneScan3."
 	einfo "Example with DCP-j315w over network:"
 	einfo "	/usr/local/Brother/sane/brsaneconfig3 -a name=Scanner_Home_DCP-j315w model=DCP-J315W ip=192.168.0.24"
+	einfo "	chmod 644 /usr/local/Brother/sane/brsanenetdevice3.cfg"
 
 }
 
