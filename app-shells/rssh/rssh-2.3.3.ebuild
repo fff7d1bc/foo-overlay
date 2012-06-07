@@ -1,10 +1,11 @@
+EAPI=4
+
 inherit eutils multilib autotools
 
 DESCRIPTION="Restricted shell designed for sshd."
 HOMEPAGE="http://rssh.sourceforge.net/"
 SRC_URI="mirror://sourceforge/rssh/${P}.tar.gz"
 
-EAPI='3'
 LICENSE="BSD"
 SLOT="0"
 KEYWORDS="~x86 ~amd64"
