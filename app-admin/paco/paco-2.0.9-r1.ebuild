@@ -18,7 +18,7 @@ KEYWORDS="~x86 x86 ~amd64 amd64"
 IUSE="gtk +tools"
 
 DEPEND="gtk? ( =dev-cpp/gtkmm-2* )
-		dev-util/pkgconfig"
+		virtual/pkgconfig"
 
 RDEPEND="${DEPEND}"
 
