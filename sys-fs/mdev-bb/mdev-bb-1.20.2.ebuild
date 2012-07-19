@@ -63,14 +63,14 @@ END_OF_CONFIG
 }
 
 src_install() {
-	mkdir "${D}/sbin"
-	cp busybox "${D}/sbin/mdev"
-	chmod 750 "${D}/sbin/mdev"
+	mkdir "${D}/sbin" || die
+	cp busybox "${D}/sbin/mdev" || die
+	chmod 750 "${D}/sbin/mdev" || die
 
 	if use mdev-like-a-boss; then
-		mkdir -p "${D}/etc"
+		mkdir -p "${D}/etc" || die
 		( cd "${D}/etc" && ln -s ../opt/mdev/mdev.conf ) || die
-		newinitd "${ROOT}/opt/mdev/mdev.init" mdev
+		newinitd "${ROOT}/opt/mdev/mdev.init" mdev || die
 	fi
 }
 
@@ -80,6 +80,9 @@ src_postinst() {
 			ewarn
 			ewarn "Remember to add mdev to sysinit runlevel by:"
 			ewarn "    rc-update add mdev sysinit"
+			ewarn
+			ewarn "Also ensure that udev, udev-postmount and devfs"
+			ewarn "aren't in any runlevel."
 			ewarn
 		fi
 	fi
