@@ -47,6 +47,10 @@ src_configure() {
 	make KCONFIG_ALLCONFIG='tmp.config' allnoconfig >/dev/null 2>&1
 }
 
+src_prepare() {
+	epatch "${FILESDIR}/busybox-1.20.2-glibc-sys-resource.patch"
+}
+
 src_install() {
 	mkdir "${D}/bin" || die
 	cp busybox "${D}/bin/ash" || die
