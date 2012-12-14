@@ -50,7 +50,11 @@ pkg_postinst () {
 	elog "For more options just execute brprintconf_dcpj315w as root"
 	elog "You can check current settings in:"
 	elog "		/usr/local/Brother/Printer/dcpj315w/inf/brdcpj315wrc"
+	elog
+	elog "To add printer over WIFI add use LPD or SOCKET protocol, for example:"
+	elog "		lpd://<host_or_ip>/BINARY_P1"
+	elog "				- or -"
+	elog "		socket://<host_or_ip>:9100"
 }
 
 # TODO: Write alternative to filterdcpj315w or patch it for the security manner.
-# TODO: Write something about config printer over WIFI.
