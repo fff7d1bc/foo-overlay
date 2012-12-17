@@ -19,7 +19,6 @@ RESTRICT="test"
 
 RDEPEND="
 	!sys-apps/busybox[mdev]
-	mdev-like-a-boss? ( sys-fs/mdev-like-a-boss )
 "
 DEPEND="${RDEPEND}
 	>=sys-kernel/linux-headers-2.6.39"
@@ -66,24 +65,11 @@ src_install() {
 	mkdir "${D}/sbin" || die
 	cp busybox "${D}/sbin/mdev" || die
 	chmod 750 "${D}/sbin/mdev" || die
-
-	if use mdev-like-a-boss; then
-		mkdir -p "${D}/etc" || die
-		( cd "${D}/etc" && ln -s ../opt/mdev/mdev.conf ) || die
-		newinitd "${ROOT}/opt/mdev/mdev.init" mdev || die
-	fi
 }
 
-src_postinst() {
-	if use mdev-like-a-boss; then
-		if ! [ -e "${ROOT}/etc/runlevels/sysinit" ]; then
-			ewarn
-			ewarn "Remember to add mdev to sysinit runlevel by:"
-			ewarn "    rc-update add mdev sysinit"
-			ewarn
-			ewarn "Also ensure that udev, udev-postmount and devfs"
-			ewarn "aren't in any runlevel."
-			ewarn
-		fi
-	fi
+pkg_postinst() {
+	ewarn
+	ewarn "This is only mdev binary, for init script and confing you may want"
+	ewarn "to install mdev-like-a-boss package."
+	ewarn
 }
