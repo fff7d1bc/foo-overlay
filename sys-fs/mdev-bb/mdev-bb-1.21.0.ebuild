@@ -10,7 +10,7 @@ MY_P=${base}-${PV/_/-}
 SRC_URI="
 	http://www.busybox.net/downloads/${MY_P}.tar.bz2
 "
-KEYWORDS=""
+KEYWORDS="amd64 x86"
 
 LICENSE="GPL-2"
 SLOT="0"
@@ -69,7 +69,7 @@ src_install() {
 
 pkg_postinst() {
 	ewarn
-	ewarn "This is only mdev binary, for init script and confing you may want"
+	ewarn "This is only mdev binary, for init script and config you may want"
 	ewarn "to install mdev-like-a-boss package."
 	ewarn
 }
