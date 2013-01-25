@@ -10,7 +10,7 @@ MY_P=${base}-${PV/_/-}
 SRC_URI="
 	http://www.busybox.net/downloads/${MY_P}.tar.bz2
 "
-KEYWORDS="amd64 x86"
+KEYWORDS=""
 
 LICENSE="GPL-2"
 SLOT="0"
