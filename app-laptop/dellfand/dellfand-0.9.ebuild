@@ -1,6 +1,6 @@
 EAPI=4
 
-inherit autotools
+inherit eutils
 
 DESCRIPTION="Dell laptop fan regulator for Linux/Solaris."
 HOMEPAGE="http://dellfand.dinglisch.net/"
