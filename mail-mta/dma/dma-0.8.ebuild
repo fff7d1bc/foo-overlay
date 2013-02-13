@@ -3,11 +3,9 @@ EAPI=4
 github_user='corecode'
 github_tag='v0.8'
 
-DESCRIPTION="DragonFly Mail Agent, a small Mail Transport Agent (MTA), designed
-for home and office use."
+DESCRIPTION="DragonFly Mail Agent, a small Mail Transport Agent (MTA), designed for home and office use."
 HOMEPAGE="https://github.com/corecode/dma"
-SRC_URI="https://github.com/${github_user}/${PN}/tarball/${github_tag} ->
-${PN}-github_tarball-${PV}.tgz"
+SRC_URI="https://github.com/${github_user}/${PN}/tarball/${github_tag} -> ${PN}-github_tarball-${PV}.tgz"
 
 LICENSE="BSD"
 SLOT="0"
@@ -36,7 +34,6 @@ src_unpack() {
 	unpack "$A"
 	mv "${WORKDIR}/${github_user}-${PN}"-??????? "${S}"
 }
-
 
 src_compile() {
 	emake PREFIX='/usr' LIBEXEC='/usr/lib/dma'
