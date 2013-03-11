@@ -18,10 +18,10 @@ IUSE="static +mdev-like-a-boss"
 RESTRICT="test"
 
 RDEPEND="
-	!sys-apps/busybox[mdev]
 	mdev-like-a-boss? ( sys-fs/mdev-like-a-boss )
+	!sys-apps/busybox[mdev]
 "
-DEPEND="${RDEPEND}
+DEPEND="
 	>=sys-kernel/linux-headers-2.6.39"
 
 S=${WORKDIR}/${MY_P}
