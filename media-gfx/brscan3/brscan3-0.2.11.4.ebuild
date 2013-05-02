@@ -29,6 +29,9 @@ src_install() {
 
 	# Preserve config, brsaneconfig3 will create the file for us.
 	rm "${D}/usr/local/Brother/sane/brsanenetdevice3.cfg"
+
+	mkdir -p "${D}/etc/sane.d/dll.d"
+	echo "brother3" >"${D}/etc/sane.d/dll.d/brscan3.conf"
 }
 
 pkg_postinst() {
@@ -41,6 +44,3 @@ pkg_postinst() {
 
 }
 
-pkg_prerm() {
-	"${ROOT}/usr/local/Brother/sane/setupSaneScan3" -e
-}
