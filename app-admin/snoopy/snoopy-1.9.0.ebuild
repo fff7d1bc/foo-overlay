@@ -5,8 +5,8 @@ EAPI=3
 inherit eutils
 
 DESCRIPTION="Snoopy will log execve() calls into syslog."
-HOMEPAGE="http://sourceforge.net/projects/snoopylogger/"
-SRC_URI="mirror://sourceforge/snoopylogger/${P}.tar.gz"
+HOMEPAGE="https://github.com/a2o/snoopy"
+SRC_URI="http://source.a2o.si/download/snoopy/${P}.tar.gz"
 
 LICENSE="GPL-2"
 SLOT="0"
@@ -15,10 +15,6 @@ IUSE=""
 
 DEPEND=""
 RDEPEND="${DEPEND}"
-
-src_prepare() {
-	epatch "${FILESDIR}/snoopy-CFLAGS.patch"
-}
 
 src_install() {
 	make DESTDIR="${D}" install
