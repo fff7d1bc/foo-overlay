@@ -19,6 +19,7 @@ RESTRICT="test"
 
 RDEPEND="
 	!sys-apps/busybox[mdev]
+	!<sys-fs/mdev-like-a-boss-20130703
 "
 DEPEND="${RDEPEND}
 	>=sys-kernel/linux-headers-2.6.39"
