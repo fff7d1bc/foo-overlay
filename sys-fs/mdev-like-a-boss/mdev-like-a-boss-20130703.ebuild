@@ -4,7 +4,7 @@ inherit git-2
 
 DESCRIPTION="Config and scripts mdev-like-a-boss"
 HOMEPAGE="https://github.com/slashbeast/mdev-like-a-boss"
-EGIT_REPO_URI="git://github.com/slashbeast/mdev-like-a-boss.git"
+EGIT_REPO_URI="https://github.com/slashbeast/mdev-like-a-boss.git"
 EGIT_COMMIT="${PV}"
 KEYWORDS="~amd64 ~x86"
 

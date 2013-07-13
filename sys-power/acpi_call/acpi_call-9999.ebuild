@@ -1,6 +1,6 @@
 EAPI='4'
 
-EGIT_REPO_URI="git://github.com/mkottman/acpi_call.git"
+EGIT_REPO_URI="https://github.com/mkottman/acpi_call.git"
 
 inherit git-2 linux-info linux-mod
 
