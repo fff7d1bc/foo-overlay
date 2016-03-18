@@ -8,7 +8,7 @@ if [[ ${PV} == "9999" ]] ; then
     EGIT_REPO_URI="https://github.com/borgbackup/borg.git"
     inherit git-r3
 else
-    SRC_URI="https://github.com/borgbackup/${PN}/archive/${PV}.tar.gz -> ${P}.tar.gz"
+	SRC_URI="https://pypi.python.org/packages/source/b/${PN}/${P}.tar.gz"
     KEYWORDS="~amd64 ~x86"
 fi
 
