@@ -8,7 +8,7 @@ if [[ ${PV} == "9999" ]] ; then
     EGIT_REPO_URI="https://github.com/borgbackup/borg.git"
     inherit git-r3
 else
-	SRC_URI="https://pypi.python.org/packages/source/b/${PN}/${P}.tar.gz"
+    SRC_URI="mirror://pypi/b/borgbackup/${P}.tar.gz"
     KEYWORDS="~amd64 ~x86"
 fi
 
@@ -17,16 +17,18 @@ HOMEPAGE="https://borgbackup.github.io/"
 
 LICENSE="BSD"
 SLOT="0"
-IUSE="libressl"
+IUSE="libressl +fuse"
 
 RDEPEND="
     dev-python/msgpack[${PYTHON_USEDEP}]
     !libressl? ( dev-libs/openssl:0 )
     libressl? ( dev-libs/libressl )
-    dev-python/llfuse[${PYTHON_USEDEP}]"
+    fuse? ( dev-python/llfuse[${PYTHON_USEDEP}] )
+"
 
 DEPEND="
-    dev-python/setuptools[${PYTHON_USEDEP}]
+    dev-python/setuptools_scm[${PYTHON_USEDEP}]
     dev-python/cython[${PYTHON_USEDEP}]
-    ${RDEPEND}"
+    ${RDEPEND}
+"
 
