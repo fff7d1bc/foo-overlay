@@ -6,7 +6,7 @@ EAPI=3
 
 inherit eutils autotools
 
-EAPI=3
+EAPI=5
 
 DESCRIPTION="Unprivileged sandboxing tool, namespaces-powered chroot-like solution"
 HOMEPAGE="https://github.com/projectatomic/bubblewrap"
