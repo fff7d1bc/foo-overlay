@@ -1,4 +1,4 @@
-EAPI=4
+EAPI="5"
 inherit git-2
 
 DESCRIPTION="Damn lightweight solution to share one ssh-agent between shells."

@@ -1,4 +1,4 @@
-EAPI=4
+EAPI="5"
 DESCRIPTION="shellscripts and lua cgi wrapper"
 HOMEPAGE="http://haserl.sourceforge.net/"
 SRC_URI="mirror://sourceforge/haserl/${P}.tar.gz"

@@ -1,4 +1,4 @@
-EAPI="4"
+EAPI="5"
 inherit eutils flag-o-matic toolchain-funcs multilib
 
 DESCRIPTION="ash from busybox."

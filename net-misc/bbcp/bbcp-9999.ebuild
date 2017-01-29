@@ -1,4 +1,4 @@
-EAPI=3
+EAPI="5"
 
 inherit git-2 cmake-utils
 

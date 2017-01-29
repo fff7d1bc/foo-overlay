@@ -2,11 +2,11 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
-EAPI=3
+EAPI="5"
 
 inherit eutils autotools
 
-EAPI=3
+EAPI="5"
 
 DESCRIPTION="Source code package organizer"
 HOMEPAGE="http://paco.sourceforge.net/"

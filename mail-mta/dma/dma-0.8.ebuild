@@ -1,4 +1,4 @@
-EAPI=4
+EAPI="5"
 
 github_user='corecode'
 github_tag='v0.8'

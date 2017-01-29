@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: /var/cvsroot/gentoo-x86/app-admin/metalog/metalog-2.ebuild,v 1.1 2011/09/23 03:15:23 vapier Exp $
 
-EAPI="3"
+EAPI="5"
 
 inherit eutils
 

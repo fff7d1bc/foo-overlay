@@ -1,4 +1,4 @@
-EAPI=6
+EAPI="5"
 
 DESCRIPTION="A utility to spin-down disks after specified period of time. (when hdparm -B/J is not enough)"
 HOMEPAGE="http://hd-idle.sourceforge.net/"
