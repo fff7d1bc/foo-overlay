@@ -11,3 +11,7 @@ IUSE=""
 
 DEPEND=""
 RDEPEND=""
+
+src_install() {
+	emake PREFIX="${D}/usr" install
+}
