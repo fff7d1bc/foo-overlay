@@ -1,6 +1,8 @@
 # Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
+# based on https://data.gpo.zugaina.org/didactic-duck/mail-mta/protonmail-bridge-bin/
+
 EAPI=6
 
 inherit rpm
