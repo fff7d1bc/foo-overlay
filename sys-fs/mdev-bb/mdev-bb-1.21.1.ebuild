@@ -1,5 +1,4 @@
 EAPI=7
-inherit epatch
 
 DESCRIPTION="mdev from busybox."
 HOMEPAGE="http://www.busybox.net/"
