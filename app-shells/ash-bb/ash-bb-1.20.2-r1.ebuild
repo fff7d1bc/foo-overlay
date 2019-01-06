@@ -1,5 +1,4 @@
 EAPI=7
-inherit epatch
 
 DESCRIPTION="ash from busybox."
 HOMEPAGE="http://www.busybox.net/"
@@ -21,6 +20,10 @@ RDEPEND=""
 DEPEND="${RDEPEND}"
 
 S=${WORKDIR}/${MY_P}
+
+PATCHES=(
+	"${FILESDIR}/busybox-1.20.2-glibc-sys-resource.patch"
+)
 
 src_configure() {
 	cat >"${S}/tmp.config" <<-END_OF_CONFIG
@@ -46,10 +49,6 @@ src_configure() {
 	fi
 
 	make KCONFIG_ALLCONFIG='tmp.config' allnoconfig >/dev/null 2>&1
-}
-
-src_prepare() {
-	epatch "${FILESDIR}/busybox-1.20.2-glibc-sys-resource.patch"
 }
 
 src_install() {
