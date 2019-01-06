@@ -1,6 +1,6 @@
-EAPI="5"
+EAPI=7
 
-inherit git-2 cmake-utils
+inherit git-r3 cmake-utils
 
 DESCRIPTION="bbcp is a point-to-point network file copy application written by Andy Hanushevsky at SLAC as a tool for the BaBar collaboration. It is capable of transferring files at approaching line speeds in the WAN."
 HOMEPAGE="https://www.slac.stanford.edu/~abh/bbcp/"

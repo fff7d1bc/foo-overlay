@@ -1,6 +1,6 @@
-EAPI="5"
+EAPI=7
 
-inherit git-2
+inherit git-r3
 
 DESCRIPTION="Config and scripts mdev-like-a-boss"
 HOMEPAGE="https://github.com/slashbeast/mdev-like-a-boss"

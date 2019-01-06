@@ -1,5 +1,5 @@
-EAPI="5"
-inherit git-2
+EAPI=7
+inherit git-r3
 
 DESCRIPTION="Damn lightweight solution to share one ssh-agent between shells."
 HOMEPAGE="https://github.com/slashbeast/keyninja"

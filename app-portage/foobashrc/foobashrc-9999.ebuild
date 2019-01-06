@@ -1,6 +1,6 @@
-EAPI="5"
+EAPI=7
 
-inherit git-2
+inherit git-r3
 
 DESCRIPTION=""
 HOMEPAGE="https://github.com/slashbeast/foobashrc"
