@@ -1,5 +1,5 @@
 EAPI=7
-inherit eutils flag-o-matic toolchain-funcs multilib
+inherit epatch
 
 DESCRIPTION="ash from busybox."
 HOMEPAGE="http://www.busybox.net/"
