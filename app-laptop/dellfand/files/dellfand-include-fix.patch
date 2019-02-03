@@ -1,5 +1,5 @@
 From 0e1d4068e79c8a15ae51ff7a4b128ac538cf87de Mon Sep 17 00:00:00 2001
-From: Piotr Karbowski <piotr.karbowski@gmail.com>
+From: Piotr Karbowski <piotr.karbowski@protonmail.ch>
 Date: Thu, 31 Mar 2011 22:47:05 +0200
 Subject: [PATCH] Fix for: error: 'umask' was not declared in this scope.
 
