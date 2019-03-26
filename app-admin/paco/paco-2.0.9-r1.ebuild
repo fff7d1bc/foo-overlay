@@ -23,7 +23,7 @@ DEPEND="gtk? ( =dev-cpp/gtkmm-2* )
 RDEPEND="${DEPEND}"
 
 src_prepare() {
-	# Just in case.
+	eapply_user
 	eautoreconf
 }
 
