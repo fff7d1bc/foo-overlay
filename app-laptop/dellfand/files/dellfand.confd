@@ -1,4 +1,0 @@
-sleep_time='2'
-fan_off_temp='25'
-fan_on_lowspeed_temp='35'
-fan_on_high_speed_temp='60'
